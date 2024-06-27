@@ -12,7 +12,6 @@
 }
 .section{
     height: 100vh;
-    padding-top: 100px;
 }
 .section-wrapper{
     position: relative;
@@ -30,18 +29,16 @@
     position: absolute;
     bottom: 0;
 }
-.line--left{
+.line--left, .line--right{
     width: 1px;
-    max-height: 76%;
+    height: 79%;
     position: absolute;
-    top:  12%;
+    top:  11%;
+}
+.line--left{
     left: 4px;
 }
 .line--right{
-    width: 1px;
-    max-height: 76%;
-    position: absolute;
-    top: 12%;
     right:  4px;
 }
 .authorization-block{
@@ -128,30 +125,7 @@
     margin-bottom: 4px;
     visibility: hidden;
 }
-@media (max-width: 1600px) {
-    .line--left, .line--right{
-        max-height: 80%;
-        top: 10%;
-    }
-}
-@media (max-width: 1400px) {
-    .line--left, .line--right{
-        max-height: 82%;
-        top: 9%;
-    }
-}
-@media (max-width: 1200px) {
-    .line--left, .line--right{
-        max-height: 90%;
-        top: 9%;
-    }
-}
-@media (max-width: 1000px) {
-    .line--left, .line--right{
-        min-height: 86%;
-        top: 7%;
-    }
-}
+
 .success-message{
     font-size: 22px;
     text-align: center;
@@ -179,7 +153,24 @@
   .submit-spinner_hide {
     display: none;
   }
-
+@media (max-width: 1200px) {
+    .line--left, .line--right{
+        height: 86%;
+        top: 7%;
+    }
+}
+@media (max-heigh: 1000px) {
+    .line--left, .line--right{
+        height: 63%;
+        top: 10%;
+    }
+}
+@media (max-heigh: 738px) {
+    .line--left, .line--right{
+        height: 60%;
+        top: 15%;
+    }
+}
 
 
  

@@ -18,6 +18,34 @@ function valid(inp, el) {
 
 const form = document.querySelector('.authorization__form');
 let spiner = document.querySelector('.submit-spinner');
+const blockForm = document.querySelector('.authorization-block');
+const baseUrl = 'https://test-works.pr-uni.ru/api/login/';
+const success = {
+    "status": "ok",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+    "user": {
+        "name": "John Doe"
+    }
+};
+
+async function getForm(user, p) {
+    try {
+        let response = await fetch(baseUrl);
+        if ((user.value == "+7 (863) 303-36-65" || user.value == "hr@samedia.ru")
+            && (p.value == "q10O57H25O82E40y95D12a85U96A4U34")) {
+                console.log(success);
+                form.style.display = "none";
+                document.cookie = success.token;
+                blockForm.insertAdjacentHTML('beforeend', `<p class="success-message">${success.user.name}, Вы успешно авторизованы!<p>`);
+       } else {
+            throw new Error("Неправильный логин или пароль");
+       }
+      }
+    catch (error) {
+        stopLoader();
+        alert(error);
+      }
+}
 
 form.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -37,42 +65,7 @@ form.addEventListener('submit', function (e) {
     }
 
     loader();
-    const params = new URLSearchParams({
-        login: `${login.value}`,
-        password: `${pass.value}`
-    });
-    const baseUrl = 'https://test-works.pr-uni.ru/api/login/';
-    const success = {
-        "status": "ok",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-        "user": {
-            "name": "John Doe"
-        }
-    };
-    const error = {
-        "status": "error",
-        "errorMessage": "Неправильный логин или пароль"
-    };
-    // fetch(`${baseUrl}?${params.toString()}`)
-    const blockForm = document.querySelector('.authorization-block');
-    fetch(baseUrl)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Неправильный логин или пароль" + error);
-                
-            } else {
-                return success;
-            }       
-        })
-        .then((data) => {
-            console.log('Success:', data);
-            form.style.display = "none";
-            document.cookie = data.token;
-            blockForm.insertAdjacentHTML('beforeend', `<p class="success-message">${data.user.name}, Вы успешно авторизованы!<p>`); 
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });   
+    getForm(login, pass);  
 });   
 
 function loader() {
@@ -80,6 +73,12 @@ function loader() {
     login.disabled = true;
     pass.disabled = true;
     btn.disabled = true;
+}
+function stopLoader() {
+    spiner.classList.add('submit-spinner_hide');
+    login.disabled = false;
+    pass.disabled = false;
+    btn.disabled = false;
 }
 
 
